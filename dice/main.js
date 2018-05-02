@@ -45,14 +45,15 @@ function dice_initialize(container) {
     }
 
     function before_roll(vectors, notation, callback) {
+        if ( roll_num > 0) return;        
         info_div.style.display = 'none';
         selector_div.style.display = 'none';
         // do here rpc call or whatever to get your own result of throw.
         // then callback with array of your result, example:
         // callback([2, 2, 2, 2]); // for 4d6 where all dice values are 2.
-         
         callback([rig_result[roll_num]]);
         roll_num = roll_num+1;
+
     }
 
     function notation_getter() {
@@ -70,15 +71,9 @@ function dice_initialize(container) {
 
     box.bind_mouse(container, notation_getter, before_roll, after_roll);
     box.bind_throw($t.id('throw'), notation_getter, before_roll, after_roll);
-    var riggedVals = ["1d6@1", "1d6@2", "1d6@3"];
-    var riggedRoll = 0;
     $t.bind(container, ['mouseup'], function(ev) {
         ev.stopPropagation();
-        //riggedRoll = riggedRoll +1;
-        //set.value = riggedVals[riggedRoll];
-        //on_set_change();
     });
-    set.value = "1d6";//riggedVals[0];
+    set.value = "1d6";
     info_div.style.display = 'inline-block';
-    // $t.raise_event($t.id('throw'), 'mouseup');
 }
